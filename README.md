@@ -10,7 +10,7 @@ Overall, the program provides a user-friendly interface for managing employee-re
 
 
 Github link
-https://github.com/sagagi74/CMS](https://github.com/sagagi74/Employee-Tracker-CMS
+https://github.com/sagagi74/Employee-Tracker-CMS
 
 This YouTube link for the Video presentation:
 https://www.youtube.com/watch?v=uG_GGqWH2kU&t=31s
