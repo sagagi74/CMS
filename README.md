@@ -7,7 +7,6 @@ This program is a command-line interface (CLI) application that allows users to 
 Overall, the program provides a user-friendly interface for managing employee-related data in a MySQL database, with features to view, add, and update employees, roles, and departments.
 
 
-![CMS](Main/Images/CMS.JPG)
 
 Github link
 
