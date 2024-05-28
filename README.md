@@ -10,10 +10,14 @@ Overall, the program provides a user-friendly interface for managing employee-re
 
 
 Github link
-
-https://www.youtube.com/watch?v=uG_GGqWH2kU&t=31s
-
 https://github.com/sagagi74/CMS
 
-This Youtube Link for Video presentation:
+This YouTube link for the Video presentation:
+https://www.youtube.com/watch?v=uG_GGqWH2kU&t=31s
+
+
+
+
+
+
 ![CMS](https://github.com/sagagi74/CMS/assets/138807577/41644cfc-405c-4217-a9d6-4e15a9cd2859)
