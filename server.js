@@ -155,37 +155,64 @@ const addRole = () => {
 
 //add employee
 const addEmployee = () => {
-    inquirer.prompt([
-        {
-            type: 'input',
-            name: 'firstName',
-            message: 'Enter the employee\'s first name:'
-        },
-        {
-            type: 'input',
-            name: 'lastName',
-            message: 'Enter the employee\'s last name:'
-        },
-        {
-            type: 'input',
-            name: 'roleId',
-            message: 'Enter the employee\'s role ID:'
-        },
-        {
-            type: 'input',
-            name: 'managerId',
-            message: 'Enter the employee\'s manager ID (if applicable):'
-        }
-    ])
-    .then(answer => {
-        // Set managerId to null if not provided
-        const managerId = answer.managerId ? answer.managerId : null;
-        const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
-        const params = [answer.firstName, answer.lastName, answer.roleId, managerId];
-        db.query(sql, params, (err, result) => {
+    // Fetch all roles to display as choices
+    const sqlRoles = `SELECT id, title FROM role ORDER BY id ASC`;
+    db.query(sqlRoles, (err, roles) => {
+        if (err) throw err;
+
+        const roleChoices = roles.map(role => ({
+            name: role.title,
+            value: role.id
+        }));
+
+        // Fetch all employees to display as choices for managers
+        const sqlManagers = `SELECT id, CONCAT(first_name, ' ', last_name) AS name FROM employee ORDER BY id ASC`;
+        db.query(sqlManagers, (err, managers) => {
             if (err) throw err;
-            console.log('Added ' + answer.firstName + ' ' + answer.lastName + ' to employees');
-            promptUser();
+
+            const managerChoices = managers.map(manager => ({
+                name: manager.name,
+                value: manager.id
+            }));
+
+            // Add an option for 'None' for managers
+            managerChoices.unshift({ name: 'None', value: null });
+
+            inquirer.prompt([
+                {
+                    type: 'input',
+                    name: 'firstName',
+                    message: 'Enter the employee\'s first name:'
+                },
+                {
+                    type: 'input',
+                    name: 'lastName',
+                    message: 'Enter the employee\'s last name:'
+                },
+                {
+                    type: 'list',
+                    name: 'roleId',
+                    message: 'Select the employee\'s role:',
+                    choices: roleChoices
+                },
+                {
+                    type: 'list',
+                    name: 'managerId',
+                    message: 'Select the employee\'s manager (if applicable):',
+                    choices: managerChoices
+                }
+            ])
+            .then(answer => {
+                // Set managerId to null if not provided
+                const managerId = answer.managerId ? answer.managerId : null;
+                const sql = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`;
+                const params = [answer.firstName, answer.lastName, answer.roleId, managerId];
+                db.query(sql, params, (err, result) => {
+                    if (err) throw err;
+                    console.log('Added ' + answer.firstName + ' ' + answer.lastName + ' to employees');
+                    promptUser();
+                });
+            });
         });
     });
 };
